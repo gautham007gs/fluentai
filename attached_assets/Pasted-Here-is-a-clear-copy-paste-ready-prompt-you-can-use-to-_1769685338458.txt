@@ -1,0 +1,100 @@
+Here is a **clear, copy-paste ready prompt** you can use to generate a **language-learning chat website** (for ChatGPT / any AI website builder / code-generation AI).
+I’ll keep it **simple, structured, and beginner-friendly**, but still **professional**.
+
+---
+
+## ✅ MASTER PROMPT: Language Learning Chat Website
+
+**Prompt:**
+
+> Create a responsive AI-powered chatting website for language learning.
+>
+> ### Core Functionality:
+>
+> * The user selects:
+>
+>   1. **Language they know (Native Language)**
+>   2. **Language they want to learn (Target Language)**
+> * The user types a message in their known language.
+> * The system automatically **translates the user message into the selected target language** before sending it to the AI.
+> * The AI:
+>
+>   * Replies **only in the target language**
+>   * Also provides the **translation back to the user’s known language**
+>   * Keeps responses simple, conversational, and suitable for beginners.
+>
+> ### Chat Behavior:
+>
+> * If the user types “Hi”:
+>
+>   * It is converted and sent as “Hola” (if learning Spanish)
+> * AI response example:
+>
+>   * **Target Language:** “¡Hola! ¿Cómo estás?”
+>   * **Native Language:** “Hello! How are you?”
+>
+> ### UI Requirements:
+>
+> * Language selection dropdowns at the top:
+>
+>   * “I know”
+>   * “I want to learn”
+> * Chat interface with:
+>
+>   * User messages
+>   * AI replies
+>   * Clear distinction between **original language** and **translated text**
+> * Mobile-friendly and clean design
+>
+> ### Technical Requirements:
+>
+> * Frontend: HTML, CSS, JavaScript (or React if preferred)
+> * Use a translation API or AI-based translation
+> * Maintain chat history
+> * Handle errors gracefully (invalid input, unsupported languages)
+>
+> ### AI Rules:
+>
+> * Always respect selected languages
+> * Never mix languages incorrectly
+> * Keep grammar beginner-friendly
+> * Correct the user politely if they make a mistake
+>
+> ### Extra Features (Optional):
+>
+> * Pronunciation guide
+> * Word-by-word breakdown
+> * “Correct my sentence” button
+> * Speech-to-text and text-to-speech
+>
+> Build the complete working project with clean, readable code and comments.
+
+---
+
+## 🔥 Shorter Prompt (If You Want a Quick Result)
+
+> Build a language-learning chat website where users select their known language and target language. User messages are translated into the target language before being sent. AI replies in the target language and shows the translation in the known language. The UI should be simple, responsive, and beginner-friendly.
+
+---
+
+## 💡 Tip (Very Important)
+
+If you’re using **ChatGPT API**, your **system prompt** should include:
+
+```text
+You are a language learning assistant.
+Always respond in the user’s selected learning language.
+Also provide a clear translation in the user’s known language.
+Keep sentences simple and conversational.
+```
+
+---
+
+If you want, I can:
+
+* Convert this into a **ChatGPT API system prompt**
+* Generate **full HTML + JS code**
+* Create a **React / Next.js version**
+* Add **Google Ads compatibility later**
+
+Just tell me 👍
