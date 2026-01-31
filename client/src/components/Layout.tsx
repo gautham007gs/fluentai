@@ -1,6 +1,5 @@
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "./app-sidebar";
-import { ThemeToggle } from "./ThemeToggle";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const style = {
@@ -19,7 +18,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-800 mx-2" />
               <span className="text-sm font-medium text-slate-500">FluentAI</span>
             </div>
-            <ThemeToggle />
           </header>
           <main className="flex-1 overflow-hidden relative">
             {children}
