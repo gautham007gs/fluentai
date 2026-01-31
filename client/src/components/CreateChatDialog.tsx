@@ -32,7 +32,11 @@ export function CreateChatDialog({ open, onOpenChange }: { open: boolean; onOpen
     // We'll create a title like "Spanish Learning (English Native)"
     const title = `${data.targetLanguage} Learning`;
     
-    createConversation.mutate({ title }, {
+    createConversation.mutate({ 
+      title,
+      nativeLanguage: data.nativeLanguage,
+      targetLanguage: data.targetLanguage
+    }, {
       onSuccess: (newChat) => {
         reset();
         onOpenChange(false);

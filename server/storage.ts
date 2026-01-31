@@ -14,7 +14,9 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async createConversation(conversation: InsertConversation): Promise<Conversation> {
-    const [newConversation] = await db.insert(conversations).values(conversation).returning();
+    const [newConversation] = await db.insert(conversations).values({
+      ...conversation,
+    }).returning();
     return newConversation;
   }
 
