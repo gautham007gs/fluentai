@@ -107,7 +107,7 @@ export default function ChatPage() {
               <ChatMessage 
                 key={msg.id} 
                 role={msg.role as "user" | "assistant"} 
-                content={msg.content} 
+                content={`${msg.targetContent}\n${msg.nativeContent}`} 
               />
             ))
           )}

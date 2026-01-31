@@ -14,8 +14,12 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async createConversation(conversation: InsertConversation): Promise<Conversation> {
+    const userId = (conversation as any).userId;
     const [newConversation] = await db.insert(conversations).values({
-      ...conversation,
+      title: conversation.title,
+      nativeLanguage: conversation.nativeLanguage,
+      targetLanguage: conversation.targetLanguage,
+      userId: userId,
     }).returning();
     return newConversation;
   }
@@ -33,11 +37,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async deleteConversation(id: number): Promise<void> {
+    await db.delete(messages).where(eq(messages.conversationId, id));
     await db.delete(conversations).where(eq(conversations.id, id));
   }
 
   async createMessage(message: InsertMessage): Promise<Message> {
-    const [newMessage] = await db.insert(messages).values(message).returning();
+    const conversationId = (message as any).conversationId;
+    const [newMessage] = await db.insert(messages).values({
+      conversationId: conversationId,
+      role: message.role,
+      nativeContent: message.nativeContent,
+      targetContent: message.targetContent,
+    }).returning();
     return newMessage;
   }
 

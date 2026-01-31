@@ -44,15 +44,15 @@ export function ChatMessage({ role, content }: ChatMessageProps) {
         </div>
 
         {/* Message Bubble Group */}
-        <div className="flex flex-col gap-1">
+        <div className={cn("flex flex-col gap-1 w-full", isUser ? "items-end" : "items-start")}>
           {/* Main Bubble (Target Language) */}
           <div className={cn(
-            "p-4 rounded-2xl shadow-sm border",
+            "p-4 rounded-2xl shadow-sm border w-fit max-w-full",
             isUser 
               ? "bg-primary text-white border-primary rounded-tr-sm" 
               : "bg-white text-slate-900 border-slate-100 rounded-tl-sm"
           )}>
-            <p className="text-base md:text-lg font-medium leading-relaxed">
+            <p className="text-base md:text-lg font-medium leading-relaxed break-words">
               {mainText}
             </p>
           </div>
@@ -60,12 +60,12 @@ export function ChatMessage({ role, content }: ChatMessageProps) {
           {/* Sub Bubble (Native Translation) - only if exists */}
           {subText && (
             <div className={cn(
-              "px-4 py-2 rounded-xl text-sm border self-start max-w-full backdrop-blur-sm",
+              "px-4 py-2 rounded-xl text-sm border backdrop-blur-sm w-fit max-w-full",
               isUser
-                ? "bg-primary/10 text-primary-foreground/80 border-primary/10 self-end" // primary-foreground usually white, might need adjustment for contrast
-                : "bg-slate-50 text-slate-500 border-slate-100 self-start"
+                ? "bg-primary/10 text-primary-foreground border-primary/10" 
+                : "bg-slate-50 text-slate-500 border-slate-100"
             )}>
-              <p className={isUser ? "text-primary/80 font-medium" : ""}>
+              <p className={cn("break-words", isUser ? "text-primary/80 font-medium" : "")}>
                 {subText}
               </p>
             </div>
