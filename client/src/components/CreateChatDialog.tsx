@@ -1,17 +1,18 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateConversation } from "@/hooks/use-conversations";
 import { useLocation } from "wouter";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
 
-// Assuming title is just a name for now, but conceptually we'd want languages.
-// Since the schema is simple (title), we'll simulate the "Language A -> Language B" experience
-// by generating a title from the selected languages.
+const LANGUAGES = [
+  "English", "Spanish", "French", "German", "Italian", "Chinese", 
+  "Japanese", "Korean", "Hindi", "Telugu", "Kannada", "Arabic"
+].sort();
 
 const formSchema = z.object({
   nativeLanguage: z.string().min(1, "Native language is required"),
@@ -24,13 +25,16 @@ export function CreateChatDialog({ open, onOpenChange }: { open: boolean; onOpen
   const [, setLocation] = useLocation();
   const createConversation = useCreateConversation();
   
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>({
+  const { handleSubmit, control, formState: { errors }, reset } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      nativeLanguage: "English",
+      targetLanguage: "",
+    }
   });
 
   const onSubmit = (data: FormValues) => {
-    // We'll create a title like "Spanish Learning (English Native)"
-    const title = `${data.targetLanguage} Learning`;
+    const title = `${data.targetLanguage} Practice`;
     
     createConversation.mutate({ 
       title,
@@ -51,30 +55,50 @@ export function CreateChatDialog({ open, onOpenChange }: { open: boolean; onOpen
         <DialogHeader>
           <DialogTitle className="text-2xl font-display font-bold text-primary">Start a New Chat</DialogTitle>
           <DialogDescription className="text-slate-500">
-            Choose the language you want to practice.
+            Choose the language you want to practice with your friend.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-4">
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="targetLanguage" className="text-sm font-semibold text-slate-700">I want to learn (Target)</Label>
-              <Input 
-                id="targetLanguage"
-                placeholder="e.g. Spanish, Japanese, French" 
-                className="h-12 rounded-xl border-slate-200 focus:border-primary focus:ring-primary/20 transition-all"
-                {...register("targetLanguage")}
+              <Label className="text-sm font-semibold text-slate-700">I want to practice (Target)</Label>
+              <Controller
+                name="targetLanguage"
+                control={control}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="h-12 rounded-xl border-slate-200">
+                      <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LANGUAGES.map(lang => (
+                        <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               />
               {errors.targetLanguage && <span className="text-xs text-red-500">{errors.targetLanguage.message}</span>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="nativeLanguage" className="text-sm font-semibold text-slate-700">I speak (Native)</Label>
-              <Input 
-                id="nativeLanguage"
-                placeholder="e.g. English" 
-                className="h-12 rounded-xl border-slate-200 focus:border-primary focus:ring-primary/20 transition-all"
-                {...register("nativeLanguage")}
+              <Label className="text-sm font-semibold text-slate-700">I speak (Native)</Label>
+              <Controller
+                name="nativeLanguage"
+                control={control}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="h-12 rounded-xl border-slate-200">
+                      <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LANGUAGES.map(lang => (
+                        <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               />
               {errors.nativeLanguage && <span className="text-xs text-red-500">{errors.nativeLanguage.message}</span>}
             </div>
@@ -97,10 +121,10 @@ export function CreateChatDialog({ open, onOpenChange }: { open: boolean; onOpen
               {createConversation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
+                  Starting...
                 </>
               ) : (
-                "Start Learning"
+                "Let's Chat"
               )}
             </Button>
           </DialogFooter>
