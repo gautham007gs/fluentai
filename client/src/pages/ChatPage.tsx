@@ -76,11 +76,11 @@ export default function ChatPage() {
 
   return (
     <Layout>
-      <div className="flex flex-col h-full bg-white md:rounded-tl-3xl shadow-2xl relative overflow-hidden">
+      <div className="flex flex-col h-full bg-white dark:bg-slate-900 md:rounded-tl-3xl shadow-2xl relative overflow-hidden">
         {/* Chat Header */}
-        <header className="px-6 py-4 border-b border-slate-100 flex items-center gap-4 bg-white/80 backdrop-blur-md z-10">
+        <header className="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center gap-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-10">
           <Link href="/">
-            <Button variant="ghost" size="icon" className="md:hidden text-slate-500">
+            <Button variant="ghost" size="icon" className="text-slate-500">
               <ArrowLeft size={20} />
             </Button>
           </Link>

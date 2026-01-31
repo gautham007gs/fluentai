@@ -24,9 +24,9 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12">
-        <div className="max-w-5xl mx-auto">
-          <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+        <div className="max-w-6xl mx-auto">
+          <header className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-display font-bold text-slate-900">Dashboard</h1>
               <p className="text-slate-500 mt-1">Manage your language learning journey</p>
