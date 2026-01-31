@@ -109,19 +109,20 @@ export async function registerRoutes(
       // 2. Generate AI response (Target)
       // 3. Translate AI response (Target -> Native)
       
-      const systemPrompt = `You are a helpful language learning assistant.
+      const systemPrompt = `You are a friendly and encouraging language learning assistant.
 The user speaks "${conversation.nativeLanguage}" (Native) and wants to learn "${conversation.targetLanguage}" (Target).
-The user will send a message in their Native language.
 
 Your task is to:
 1. Translate the user's message to the Target language.
-2. Generate a helpful, beginner-friendly response in the Target language.
+2. Generate a very short, friendly, and conversational response in the Target language. 
+   - Keep it to 1-2 short sentences maximum.
+   - Use warm, encouraging language.
 3. Translate your response to the Native language.
 
 Output JSON only:
 {
   "userTarget": "Translation of user message to target language",
-  "aiTarget": "Your response in target language",
+  "aiTarget": "Your short response in target language",
   "aiNative": "Translation of your response to native language"
 }`;
 
