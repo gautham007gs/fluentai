@@ -119,12 +119,16 @@ Your task is to:
    - DO NOT correct their grammar or explain rules unless they specifically ask.
    - Just keep the conversation going naturally.
    - Keep it very short (1-2 sentences).
-3. Translate your reply back to the Native language.
+3. Provide a transliteration (phonetic reading) of the Target language reply using English characters (Romanization). 
+   - Example for Telugu "Mīru elā unnāru".
+   - This applies to all non-English target languages.
+4. Translate your reply back to the Native language.
 
 Output JSON only:
 {
   "userTarget": "Translation of user message to target language",
   "aiTarget": "Your natural friend-to-friend reply in target language",
+  "aiTransliteration": "Phonetic reading of aiTarget in English characters",
   "aiNative": "Translation of your reply to native language"
 }`;
 
@@ -144,6 +148,11 @@ Output JSON only:
         throw new Error("Invalid AI response format");
       }
 
+      // Combine target content with transliteration if available
+      const assistantTargetWithPhonetic = result.aiTransliteration 
+        ? `${result.aiTarget}\n(${result.aiTransliteration})` 
+        : result.aiTarget;
+
       // Save User Message (Native + Target)
       const userMessage = await storage.createMessage({
         conversationId,
@@ -157,7 +166,7 @@ Output JSON only:
         conversationId,
         role: "assistant",
         nativeContent: result.aiNative,
-        targetContent: result.aiTarget
+        targetContent: assistantTargetWithPhonetic
       });
 
       // Return both
