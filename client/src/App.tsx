@@ -4,42 +4,64 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/use-auth";
+import { lazy, Suspense } from "react";
 
-import LandingPage from "@/pages/LandingPage";
-import Dashboard from "@/pages/Dashboard";
-import ChatPage from "@/pages/ChatPage";
-import NotFound from "@/pages/NotFound";
+// Dynamic imports for code-splitting
+const LandingPage = lazy(() => import("@/pages/LandingPage"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const ChatPage = lazy(() => import("@/pages/ChatPage"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+  );
+}
 
 function ProtectedRoute({ component: Component, ...rest }: { component: React.ComponentType<any> }) {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center bg-white"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>;
+    return <PageLoader />;
   }
 
   if (!user) {
-    return <LandingPage />;
+    return (
+      <Suspense fallback={<PageLoader />}>
+        <LandingPage />
+      </Suspense>
+    );
   }
 
-  return <Component />;
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <Component />
+    </Suspense>
+  );
 }
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={() => (
-        <ProtectedRoute component={Dashboard} />
-      )} />
-      
-      <Route path="/chat/:id" component={ChatPage} />
-      
-      <Route path="/api/login" component={() => {
-        window.location.href = "/api/login";
-        return null;
-      }} />
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
+        <Route path="/" component={() => (
+          <ProtectedRoute component={Dashboard} />
+        )} />
+        
+        <Route path="/chat/:id" component={() => (
+          <ProtectedRoute component={ChatPage} />
+        )} />
+        
+        <Route path="/api/login" component={() => {
+          window.location.href = "/api/login";
+          return null;
+        }} />
 
-      <Route component={NotFound} />
-    </Switch>
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
