@@ -114,19 +114,19 @@ The user speaks "${conversation.nativeLanguage}" (Native) and wants to practice 
 
 Your task is to:
 1. Translate the user's message to the Target language.
-2. Reply naturally as a friend would in the Target language. 
+2. Provide a transliteration (phonetic reading) of the user's message in the Target language using English characters.
+3. Reply naturally as a friend would in the Target language. 
    - DO NOT act like a teacher, tutor, or assistant.
    - DO NOT correct their grammar or explain rules unless they specifically ask.
    - Just keep the conversation going naturally.
    - Keep it very short (1-2 sentences).
-3. Provide a transliteration (phonetic reading) of the Target language reply using English characters (Romanization). 
-   - Example for Telugu "Mīru elā unnāru".
-   - This applies to all non-English target languages.
-4. Translate your reply back to the Native language.
+4. Provide a transliteration (phonetic reading) of your Target language reply using English characters.
+5. Translate your reply back to the Native language.
 
 Output JSON only:
 {
   "userTarget": "Translation of user message to target language",
+  "userTransliteration": "Phonetic reading of user message in English characters",
   "aiTarget": "Your natural friend-to-friend reply in target language",
   "aiTransliteration": "Phonetic reading of aiTarget in English characters",
   "aiNative": "Translation of your reply to native language"
@@ -149,6 +149,10 @@ Output JSON only:
       }
 
       // Combine target content with transliteration if available
+      const userTargetWithPhonetic = result.userTransliteration
+        ? `${result.userTarget}\n(${result.userTransliteration})`
+        : result.userTarget;
+
       const assistantTargetWithPhonetic = result.aiTransliteration 
         ? `${result.aiTarget}\n(${result.aiTransliteration})` 
         : result.aiTarget;
@@ -158,7 +162,7 @@ Output JSON only:
         conversationId,
         role: "user",
         nativeContent,
-        targetContent: result.userTarget
+        targetContent: userTargetWithPhonetic
       });
 
       // Save AI Message (Target + Native)
